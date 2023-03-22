@@ -1,3 +1,4 @@
+```bash
 
 # Docs => https://blog.betrybe.com/git/git-branch/
 # Docs => https://www.varonis.com/pt-br/blog/git-branching
@@ -35,3 +36,4 @@ exec git config --global --edit
 
 # Baixar uma branch remota para local
 exec git pull origin nome_da_brach
+```
