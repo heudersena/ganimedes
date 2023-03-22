@@ -1,0 +1,193 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider          = "prisma-zod-generator"
+  output            = "./generated-zod-schemas"
+  isGenerateSelect  = true
+  isGenerateInclude = true
+}
+
+generator erd {
+  provider                  = "prisma-erd-generator"
+  engineType                = "library"
+  output                    = "./ear.pdf"
+  includeRelationFromFields = true
+}
+
+generator class_validator {
+  provider = "prisma-class-validator-generator"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLE_PROFILE {
+  ROLE_ADMINISTRATOR
+  ROLE_EDIT
+  ROLE_OPERATOR
+  ROLE_ATTENDANT
+  ROLE_PLAYER
+}
+
+enum ROLE_TRANSACTION {
+  ROLE_WITHDRAWALS // SAQUES
+  ROLE_DEPOSIT // DEPOSITO
+  ROLE_AWARDED // PREMIADO
+  ROLE_LOST_PLAY // JOGADA PERDIDA
+}
+
+model Profile {
+  id             String       @id @default(uuid())
+  keycloak_id    String?      @unique
+  first_name     String
+  second_name    String
+  email          String       @unique
+  cpf            String?      @unique
+  balance        Decimal?     @default(0.00) @db.Decimal(9, 2)
+  bonus          Decimal?     @default(0.00) @db.Decimal(9, 2)
+  phone          String
+  keyPix         String
+  type_profile   ROLE_PROFILE @default(ROLE_PLAYER)
+  reference_code String       @default("NULL")
+
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @default(now()) @updatedAt
+  Transaction       Transaction[]
+  Terms             Term[]
+  Accumulator_bonus Accumulator_bonus[]
+
+  @@map("profiles")
+}
+
+enum mercado_pago_transaction_status_rules {
+  pending
+  approved
+  cancelled
+}
+
+model Transaction {
+  id String @id @default(uuid())
+
+  profile                         Profile                               @relation(fields: [profile_id], references: [id])
+  profile_id                      String
+  balance                         Decimal                               @default(0.00) @db.Decimal(9, 2)
+  bonus                           Decimal                               @default(0.00) @db.Decimal(9, 2)
+  percentage_bonus                Int                                   @default(0)
+  type_transaction                ROLE_TRANSACTION
+  mercado_pago_transaction_status mercado_pago_transaction_status_rules @default(pending)
+  description                     String?
+  is_payment                      Boolean                               @default(false)
+  is_employee_paid                Boolean                               @default(false) // VERIDICA SE FOI PAGO A COMISSÃO PARA O FUNCIONÁRIO
+
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @default(now()) @updatedAt
+  Receipt     Receipt[]
+  MercadoPago MercadoPago[]
+
+  @@map("transactions")
+}
+
+model Term {
+  id          String  @id @default(uuid())
+  profile     Profile @relation(fields: [profileId], references: [id])
+  profileId   String
+  is_accepted Boolean
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("terms")
+}
+
+model Text_description {
+  id           String @id @default(uuid())
+  descriptions String @db.VarChar(999)
+
+  @@map("text_descriptions")
+}
+
+// ESTÁ TABLE SERVER PARA ANEXAR OS COMPROVANTES DE PAGAMENTOS DE TRANSFERÊNCIA QUANDO O USUÁRIO SOLICITAR O SAQUE
+
+model Receipt {
+  id             String      @id @default(uuid())
+  is_paid        Boolean     @default(false)
+  transaction_id String
+  file_id        String?
+  transaction    Transaction @relation(fields: [transaction_id], references: [id])
+  file           File?       @relation(fields: [file_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("receipts")
+}
+
+model File {
+  id       String    @id @default(uuid())
+  archived String?   @db.VarChar(999)
+  Receipt  Receipt[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("files")
+}
+
+enum action_rule {
+  created
+  updated
+}
+
+enum status_role {
+  accredited
+  cancelled
+  expired
+  pending_waiting_transfer
+}
+
+model MercadoPago {
+  id                    String      @id @default(uuid())
+  transaction_id        String      
+  transaction           Transaction @relation(fields: [transaction_id], references: [id])
+  m_id                  String      @default("NULL")
+  m_action              action_rule
+  m_status              String
+  m_status_detail       status_role
+  m_net_received_amount Decimal     @db.Decimal(9, 2)
+  m_total_paid_amount   Decimal     @db.Decimal(9, 2)
+  m_transaction_id      String
+  m_qr_code             String
+  m_ticket_url          String
+  m_qr_code_base64      String?     @db.Text
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("mercadopagos")
+}
+
+model Accumulator_bonus {
+  id           String  @id @default(uuid())
+  profile      Profile @relation(fields: [profile_id], references: [id])
+  profile_id   String  @unique
+  bonus_amount Decimal @default(0.00) @db.Decimal(9, 2)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("accumulator_bonus")
+}
+
+model Percentage_today {
+  id         String  @id @default(uuid())
+  percentage Decimal @default(0.00) @db.Decimal(9, 2)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("percentage_today")
+}
