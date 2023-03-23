@@ -68,6 +68,22 @@ export interface IMP {
 
 export class TransactionDatabase {
 
+    static async DatabaseMethodGetAll(email: string) {
+        const content = await prisma.profile.findMany({
+            where: {
+                email: email
+            },
+            include: {
+                Transaction: {                    
+                    include: { MercadoPago: true }
+                }
+
+            }
+        })
+        
+        return content
+    }
+
     static async DatabaseMethodCreation(keycloak_id: string, money: number) {
 
         // PRA QUEM É ESSA TRANSAÇÃO -  VERIFICAR PELO KEYCLOAK_ID

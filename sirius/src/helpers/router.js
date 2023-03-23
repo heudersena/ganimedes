@@ -1,15 +1,48 @@
-import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router';
-import { useAuthStore } from '@/stores';
+import { createRouter, createWebHistory } from 'vue-router';
 
-import { HomeView, LoginView, RegisterView } from '@/views';
+
+import { HomeView, LoginView, RegisterView, DespositView } from '@/views';
+
+import Guard from "../service/middleware"
+
+import DashboardLayout from "../components/Layout/DashboardLayout"
+import LoginLayout from "../components/Layout/LoginLayout"
 
 export const router = createRouter({
     history: createWebHistory(),
     linkActiveClass: 'active',
     routes: [
-        { path: '/', component: HomeView },
-        { path: '/login', component: LoginView },
-        { path: '/register', component: RegisterView }
+        {
+            path: '/',
+            component: DashboardLayout,
+            beforeEnter: Guard.redirectIfNotAuthenticated,
+            children: [
+                {
+                    path: "/",
+                    name: "index",
+                    component: HomeView
+                },
+                {
+                    path: "/deposit",
+                    name: "deposit",
+                    component: DespositView
+                }
+            ]
+        },
+        {
+            path: '/login',
+            component: LoginLayout,
+            beforeEnter: Guard.redirectIfAuthenticated,
+            children: [{
+                path: "",
+                name: "login",
+                component: LoginView
+            }]
+        },
+        {
+            path: '/register',
+            component: RegisterView
+        }
     ]
 });
 
@@ -17,15 +50,14 @@ export const router = createRouter({
 
 
 
-router.beforeEach(async (to) => {
-    // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/register'];
-    const authRequired = !publicPages.includes(to.path);
-    const auth = useAuthStore();    
+// router.beforeEach(async (to) => {
+//     const publicPages = ['/login', '/register'];
+//     const authRequired = !publicPages.includes(to.path);
+//     const auth = useAuthStore();
 
-    if (authRequired && !auth.user) {
-        auth.returnUrl = to.fullPath;
-        window.document.location.href = "/login"
-    }
+//     if (authRequired && !auth.user) {
+//         auth.returnUrl = to.fullPath;
+//         window.document.location.href = "/login"
+//     }
 
-});
+// });

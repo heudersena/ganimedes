@@ -1,102 +1,39 @@
+<template>
+  <div>
+    <InformationHeadComponent msg="Lista de transações" />
+    <span v-if="loading">carregando...</span>
+    <span v-if="!load_transaction">...</span>
+    <TableComponent v-if="loading === false" :transaction="load_transaction" />
+  </div>
+</template>
 
 <script setup>
-import { ref, reactive } from "vue";
-
-const isLoggedIn = ref(true);
-const pix = ref("");
-const m_ticket_url = ref("");
-
-import * as Yup from "yup";
-
-import { Form, Field } from "vee-validate";
+import { computed, onMounted, ref } from "vue";
+import TableComponent from "../components/TableComponent.vue";
+import InformationHeadComponent from "../components/InformationHeadComponent.vue";
+import ExempleComponent from "../components/ExempleComponent.vue";
+// TODO
 
 import api from "../plugins/axios";
 
-const schema = Yup.object().shape({
-  balance: Yup.number("Precisa ser um numero").required(
-    "Digite um valor para fazer deposito"
-  ),
+const load_transaction = ref({});
+const loading = ref(true);
+
+onMounted(() => {
+  api.post("/transaction").then((response) => {
+    load_transaction.value = response.data?.[0].Transaction;
+  });
+  loading.value = false;
+  console.log(load_transaction);
 });
 
-async function onSubmit(values, { setErrors }) {
-  const { balance } = values;
-  try {
-    const content = await api.post("/profile/store-deposit", {
-      balance: Number(balance),
-    });
-    const imagem = content.data?.mercado_pago?.m_qr_code_base64;
-    pix.value = imagem;
-    console.log(content.data?.mercado_pago?.m_ticket_url);
-    m_ticket_url.value = content.data?.mercado_pago?.m_ticket_url;
-  } catch (er) {
-    console.log(er);
-  }
-}
+const total_money = computed(() => {
+  load_transaction[0].balance.reduce(function (soma, i) {
+    return soma++;
+  });
+});
+
+console.log(total_money);
 </script>
-
-
-
-
-<template>
-  <div class="flex">
-    <div>
-      <div>
-        <h1 class="mt-6 mb-6 text-gray-500">Pagamento</h1>
-      </div>
-
-      <div class="flex w-full">
-        <Form
-          @submit="onSubmit"
-          :validation-schema="schema"
-          v-slot="{ errors, isSubmitting }"
-          class="flex flex-col w-full"
-        >
-          <Field
-            name="balance"
-            type="number"
-            :class="{ 'bg-red-200': errors.balance }"
-            class="w-full"
-          />
-          <div class="invalid-feedback">{{ errors.balance }}</div>
-
-          <br />
-          <button :disabled="isSubmitting">
-            <span v-show="isSubmitting"></span>
-            Depoistar
-          </button>
-
-          <div v-if="errors.apiError">
-            {{ errors.apiError }}
-          </div>
-        </Form>
-
-        <div
-          v-if="m_ticket_url"
-          class="border border-gray-700 p-2 flex rounded-sm ml-3"
-        >
-          <img
-            v-if="pix"
-            class="h-[150px]"
-            :src="'data:image/jpeg;charset=utf-8;base64, ' + pix"
-          />
-
-          <div>
-            <a
-              v-if="m_ticket_url"
-              :href="m_ticket_url"
-              target="_blank"
-              class="text-purple-800"
-              >Abrir Pagina para fazer pagamento</a
-            >
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="bg-red-900">....fefre</div>
-
-  </div>
-</template>
 
 

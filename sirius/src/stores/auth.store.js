@@ -55,6 +55,11 @@ export const useAuthStore = defineStore({
             localStorage.removeItem('sirius::user');
             localStorage.removeItem('sirius::access_token');
             window.document.location.href = "/login"
+        },
+
+        authenticated() {
+            return Boolean(localStorage.getItem('sirius::access_token'))
         }
-    }   
+
+    }
 });
