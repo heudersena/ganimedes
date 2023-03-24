@@ -2,6 +2,7 @@ import express from "express"
 import { resolve } from "path"
 import { PercentageController } from "../controllers/PercentageController"
 import { ProfileController } from "../controllers/ProfileController"
+import { TransactionControler } from "../controllers/TransactionControler"
 import { WebhookController } from "../controllers/WebhookController"
 import { keycloakAuthenticationMidleware } from "../middleware/keycloak"
 import { validateResource } from "../middleware/validateResource"
@@ -22,6 +23,8 @@ route.post("/api/v1/profile/request-withdrawal", keycloakAuthenticationMidleware
 // PORCENTAGEM DE BONUS
 route.get("/api/v1/percentage", PercentageController.index)
 route.post("/api/v1/percentage", PercentageController.store)
+
+route.post("/api/v1/transaction", keycloakAuthenticationMidleware, TransactionControler.index)
 
 
 // CADASTRO
