@@ -2,15 +2,17 @@
 <script setup>
 import { ref, reactive } from "vue";
 
-const isLoggedIn = ref(true);
-const pix = ref("");
-const m_ticket_url = ref("");
+
 
 import * as Yup from "yup";
 
 import { Form, Field } from "vee-validate";
 
 import api from "../plugins/axios";
+
+const isLoggedIn = ref(true);
+const pix = ref("");
+const m_ticket_url = ref("");
 
 const schema = Yup.object().shape({
   balance: Yup.number("Precisa ser um numero").required(

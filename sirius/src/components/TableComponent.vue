@@ -22,7 +22,7 @@
                 <td class="whitespace-nowrap px-6 py-2">
                   <!-- {{t.MercadoPago[0].m_ticket_url }} -->
                   <span v-if="t.mercado_pago_transaction_status === 'pending'">
-                    <a target="_blank"  class="text-md text-yellow-500 font-bold" :href="t.MercadoPago[0].m_ticket_url">{{ t.mercado_pago_transaction_status}}</a>
+                    <a target="_blank"  class="text-md text-yellow-500 font-bold" :href="t.MercadoPago[0]?.m_ticket_url">{{ t.mercado_pago_transaction_status}}</a>
                   </span>
                   <span class="text-green-500" v-if="t.mercado_pago_transaction_status === 'approved'">{{ t.mercado_pago_transaction_status}}</span>
                   <span class="text-red-600" v-if="t.mercado_pago_transaction_status === 'cancelled'">{{ t.MercadoPago[0].m_status}}</span>

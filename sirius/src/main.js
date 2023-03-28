@@ -11,6 +11,7 @@ const app = createApp(App);
 
 app.config.globalProperties.$axios = api
 
+
 app.use(createPinia());
 app.use(router);
 

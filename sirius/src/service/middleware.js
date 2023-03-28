@@ -2,6 +2,7 @@
 import { useAuthStore } from "../stores";
 import api from "../plugins/axios"
 import jwt from "jwt-decode"
+import { useAuth } from "../composables/useAuth";
 
 export default {
     redirectIfAuthenticated(to, from, next) {
@@ -21,11 +22,16 @@ export default {
 
         const user = await api.post("/profile/me")
 
-        if (user.data?.error == true) {
+
+        const { setUsers } = useAuth();
+
+        setUsers(user.data?.user?.data)
+
+        if (user.data?.request?.error == true) {
             n = { name: "login" }
             localStorage.clear()
         } else {
-            const token_decod = jwt(user.data?.token)
+            const token_decod = jwt(user.data?.request?.token)
 
             if (Date.now() >= token_decod.exp * 1000) {
                 n = { name: "login" }

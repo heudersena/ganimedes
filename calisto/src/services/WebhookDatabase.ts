@@ -14,6 +14,7 @@ export class WebhookDatabase {
 
         if (_info_mercado_pago?.m_status === "approved") return
 
+       try {
         switch (action) {
             case "payment.updated":
                 if (MP.response.status_detail === "expired") {
@@ -135,6 +136,10 @@ export class WebhookDatabase {
                 console.log("METHOD::ACTION: ", action);
                 break;
         }
+       } catch (error) {
+            console.log(error);
+            
+       }
 
 
 

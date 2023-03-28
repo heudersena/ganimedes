@@ -21,12 +21,32 @@ export class ProfileDatabase {
         }
     }
 
+    static async DatabaseMethodGetTotalBalance(keycloak_id: string) {
+        try {
+            const content = await prisma.profile.findFirst({
+                where: {
+                    keycloak_id: keycloak_id
+                },
+                select: {
+                    balance: true,
+                    bonus: true
+                }
+            })
+
+            return ExecuteReturn(content)
+
+        } catch (error) {
+            return ExecuteReturn([], true, error)
+        }
+    }
+
     static async DatabaseMethodSelectOne(keycloak_id: string) {
         try {
             const content = await prisma.profile.findFirst({
                 where: {
                     keycloak_id: keycloak_id
-                }
+                },
+                orderBy:{created_at: "desc"}
             })
 
             return ExecuteReturn(content)

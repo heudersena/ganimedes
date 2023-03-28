@@ -15,6 +15,7 @@ route.get("/", (req, res) => res.sendFile(resolve(__dirname, "..", "view", "inde
 
 route.post("/api/v1/profile/me", keycloakAuthenticationMidleware, ProfileController.me)
 route.get("/api/v1/profile/index", keycloakAuthenticationMidleware, ProfileController.index)
+route.post("/api/v1/profile/balance", keycloakAuthenticationMidleware, ProfileController.getTotalBalance)
 route.post("/api/v1/profile/store", validateResource(ExceptionProfileStoreValidation), keycloakAuthenticationMidleware, ProfileController.store)
 route.post("/api/v1/profile/store-deposit", keycloakAuthenticationMidleware, validateResource(ExceptionProfileStoreDepositValidation), ProfileController.store_deposit)
 route.post("/api/v1/profile/request-withdrawal", keycloakAuthenticationMidleware, validateResource(ExceptionProfileStoreDepositValidation), ProfileController.request_withdrawal)

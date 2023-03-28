@@ -1,41 +1,74 @@
 <template>
-  <div class="flex h-full flex-col">
-    <header class="flex items-center w-full justify-between h-16 border-b border-gray-100">
-      
-      <div class="w-[1180px] m-auto flex items-center justify-between">
+  <div class="">
 
-       <div class="flex items-center">
-         <RouterLink to="/" class="flex items-center space-x-2">
-            <CashSyncIcon />
-            <span>Coringa <span class="text-yellow-600 font-bold">G</span>ames </span>
-        </RouterLink>
-        <MenuComponent />
-       </div>
+    <div class="flex items-center justify-center ">
+
+    <div class="flex items-center mt-8 text-sm">
+      <div class=" p-10">
+        <img :src="'https://ui-avatars.com/api/?name='+users.first_name+users.second_name" class="rounded-full w-[130px]">
+      </div>
       <div>
-        <button @click="authStore.logout()">
-            <LogoutIcon class="text-blue-700" />
-        </button>
-      </div>
-      </div>
+        <div class="flex space-x-4 text-md">
+          <div class="font-bold">{{users.email}}</div>
+          <button class="py-1 px-2 rounded text-white text-[9px] bg-[#7159c1] hover:bg-[#7159c1]/80">Editar perfil</button>
+          <button @click="authStore.logout()"><LogoutIcon class="text-yellow-500" /></button>
+        </div>
 
-    </header>
 
-    <div class="w-[1180px] m-auto">
-        <RouterView />
+        <div class="flex mt-2 space-x-4">
+          <div class="flex items-center space-x-1"> <CashMultipleIcon class="text-green-500" /> <span>{{users.balance}}</span> </div>
+          <div class="flex items-center space-x-1"><PlusCircleIcon class="text-blue-500" /> <span>{{users.bonus}}</span> </div>
+        </div>
+
+        <div class="mt-6 text-gray-400 text-xs">
+          <div class="uppercase ">#id 54471-85465-96364-85h5-96584j</div>
+          <div>{{users.first_name}} {{users.second_name}}</div>
+          <div> {{users.phone}}</div>
+          <div>Chave Pix:  {{users.keyPix}}</div>
+        </div>
+        <div class="mt-2">
+          <button v-if="!showOpenClose" @click="open()" class="flex items-center space-x-1  text-gray-500 hover:text-green-500 "><CartIcon /> <span></span> </button>
+          <button v-else @click="close()" class="flex items-center space-x-1 text-gray-500 hover:text-purple-500 "><CartOffIcon /> <span></span> </button>
+        </div>
+      </div>
     </div>
 
+
+  </div>
+  <div class="w-[574px] m-auto">
+    <div class="border-b border-gray-200"></div>
+      <RouterView />
+  </div>
+  <div v-show="showOpenClose" class="absolute top-0 right-0 w-[380px] bg-gray-200 h-full z-50">
+    <FormDepositComponet />
+  </div>
   </div>
 </template>
 
+        
 
 <script setup>
 import { RouterView, RouterLink } from "vue-router";
 import LogoutIcon from "vue-material-design-icons/Logout.vue"
 import CashSyncIcon from "vue-material-design-icons/CashSync.vue"
+import PlusCircleIcon from "vue-material-design-icons/PlusCircle.vue"
+import CashMultipleIcon from "vue-material-design-icons/CashMultiple.vue"
+import CartIcon from "vue-material-design-icons/Cart.vue"
+import CartOffIcon from "vue-material-design-icons/CartOff.vue"
+
+import { useAuth } from "../../composables/useAuth"
+import { useOpenClose } from "../../composables/useOpenClose"
+
 import MenuComponent from "../MenuComponent.vue"
+import FormDepositComponet from "../FormDepositComponet.vue"
 
 // Logount
 import { useAuthStore } from "@/stores";
 const authStore = useAuthStore();
+
+
+
+const { open, close, showOpenClose } = useOpenClose()
+const { users } = useAuth()
 
 </script>   

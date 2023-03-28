@@ -14,8 +14,9 @@ export default defineConfig({
   },
   preview: {
     https: true,
-    port: 9001,
-    host: true
+    port: 9000,
+    host: true,
+    cors: ["*"]
   },
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],

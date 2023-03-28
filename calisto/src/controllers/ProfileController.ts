@@ -9,14 +9,25 @@ const fn = new InternalFunctionService();
 class ProfileController {
 
     static async me(request: Request, response: Response, next: NextFunction) {
-        return response.json(request.user)
+         const user = await ProfileDatabase.DatabaseMethodSelectOne(request.user.content.sub)
+        return response.json({request: request.user, user})
+    }
+
+    static async getTotalBalance(request: Request, response: Response, next: NextFunction) {
+        const content = await ProfileDatabase.DatabaseMethodGetTotalBalance(request.user.content.sub)
+        
+        return response.json({
+            balance:Number(content.data?.balance),
+            balance_br:Number(content.data?.balance).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}),
+            bonus:Number(content.data?.bonus).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+        })
     }
 
     static async index(request: Request, response: Response, next: NextFunction) {
         // const content = await ProfileService.index(request.user.content.sub)
         console.log(request.user);
         
-        return response.json({ content: request.user })
+        return response.json({ balance: request.user })
     }
 
     static async store(request: Request, response: Response, next: NextFunction) {
@@ -36,8 +47,7 @@ class ProfileController {
     }
 
     static async store_deposit(request: Request, response: Response, next: NextFunction) {
-        const balance = Number(request.body.balance)
-        console.log(balance);        
+        const balance = Number(request.body.balance)     
         const content = await TransactionDatabase.DatabaseMethodCreation(request.user.content.sub, balance)
         return response.json(content)
     }

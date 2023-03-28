@@ -34,16 +34,16 @@ export const useAuthStore = defineStore({
                     Authorization: "Bearer " + token.data?.access_token
                 }
             })
-
+            console.log(user_api_rest);
 
 
             // update pinia state
-            this.user = user_api_rest.data?.content;
+            this.user = user_api_rest.data?.request?.content;
             this.access_token = token.data.access_token
 
             // store user details and jwt in local storage to keep user logged in between page refreshes
             localStorage.setItem('sirius::access_token', token.data?.access_token);
-            localStorage.setItem('sirius::user', JSON.stringify(user_api_rest.data?.content));
+            localStorage.setItem('sirius::user', JSON.stringify(user_api_rest.data?.request?.content));
 
             // redirect to previous url or default to home page            
             router.push(this.returnUrl || '/');
