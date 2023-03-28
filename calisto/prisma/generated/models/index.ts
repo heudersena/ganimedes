@@ -1,9 +1,0 @@
-export { Accumulator_bonus } from "./Accumulator_bonus.model";
-export { File } from "./File.model";
-export { MercadoPago } from "./MercadoPago.model";
-export { Percentage_today } from "./Percentage_today.model";
-export { Profile } from "./Profile.model";
-export { Receipt } from "./Receipt.model";
-export { Term } from "./Term.model";
-export { Text_description } from "./Text_description.model";
-export { Transaction } from "./Transaction.model";

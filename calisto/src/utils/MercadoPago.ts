@@ -2,6 +2,7 @@ import mercadopago from "mercadopago"
 import dayjs from "dayjs"
 import { IMP } from "../services/TransactionDatabase";
 
+
 mercadopago.configurations.setAccessToken(String(process.env.MERCADO_PAGO_KEY_PROD));
 
 export interface IMercadoPagoCreate {

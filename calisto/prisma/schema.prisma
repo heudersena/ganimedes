@@ -1,24 +1,8 @@
 generator client {
   provider = "prisma-client-js"
+  engineType = "binary"
 }
 
-generator zod {
-  provider          = "prisma-zod-generator"
-  output            = "./generated-zod-schemas"
-  isGenerateSelect  = true
-  isGenerateInclude = true
-}
-
-generator erd {
-  provider                  = "prisma-erd-generator"
-  engineType                = "library"
-  output                    = "./ear.pdf"
-  includeRelationFromFields = true
-}
-
-generator class_validator {
-  provider = "prisma-class-validator-generator"
-}
 
 datasource db {
   provider = "mysql"
