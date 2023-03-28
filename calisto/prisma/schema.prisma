@@ -1,8 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
   engineType = "binary"
 }
-
 
 datasource db {
   provider = "mysql"
@@ -43,6 +42,8 @@ model Profile {
   Transaction       Transaction[]
   Terms             Term[]
   Accumulator_bonus Accumulator_bonus[]
+  withdrawal        Withdrawal[]
+  Called            Called[]
 
   @@map("profiles")
 }
@@ -135,7 +136,7 @@ enum status_role {
 
 model MercadoPago {
   id                    String      @id @default(uuid())
-  transaction_id        String      
+  transaction_id        String
   transaction           Transaction @relation(fields: [transaction_id], references: [id])
   m_id                  String      @default("NULL")
   m_action              action_rule
@@ -174,4 +175,62 @@ model Percentage_today {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map("percentage_today")
+}
+
+enum withdrawal_role {
+  processing
+  accepted
+  refused
+}
+
+model Withdrawal {
+  id          String          @id @default(uuid())
+  profile     Profile         @relation(fields: [profile_id], references: [id])
+  profile_id  String
+  amount      Decimal         @default(0.00) @db.Decimal(9, 2)
+  status      withdrawal_role @default(processing)
+  description String?
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @default(now()) @updatedAt
+
+  @@index([id])
+  @@map("withdrawals")
+}
+
+enum callen_rules {
+  open
+  in_attendance
+  close
+}
+
+model Called {
+  id           String         @id @default(uuid())
+  profile      Profile        @relation(fields: [profile_id], references: [id])
+  profile_id   String
+  descriptions String         @db.VarChar(999)
+  status       callen_rules   @default(open)
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now()) @updatedAt
+  Conversation Conversation[]
+
+  @@index([id])
+  @@map("calleds")
+}
+
+enum who_rules {
+  client
+  operator
+}
+
+model Conversation {
+  id           String    @id @default(uuid())
+  callend      Called    @relation(fields: [called_id], references: [id])
+  who          who_rules @default(client)
+  called_id    String
+  descriptions String    @db.VarChar(999)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @default(now()) @updatedAt
+
+  @@index([id])
+  @@map("conversations")
 }

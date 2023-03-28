@@ -30,7 +30,9 @@ interface ILogin {
 }
 
 
-export const keycloakRolesMidleware = (args: string[]) => {
+export const keycloakRolesMidlleware = (args: string[]) => {
+    console.log(args);
+
     return (request: Request, response: Response, next: NextFunction) => {
         const authHeader = request.headers?.authorization;
         if (!authHeader) {
@@ -46,13 +48,19 @@ export const keycloakRolesMidleware = (args: string[]) => {
         try {
             const token_data = new Token(token, process.env.KEYCLOAK_CLIENT_ID);
 
-            const permissionExists = token_data.content?.realm_access?.roles.map(item => item)
-                .some((permission) => args.includes(permission))
+            if (token_data.content?.realm_access?.roles['ROLE_ADMINISTRATOR']) {
+                return next()
+            } else {
 
-            if (!permissionExists) {
-                return response.json(MESSAGE_RETURN([], CUSTOM_MESSAGE("VOCÊ NÃO TEM PERMISSÃO"), true));
+
+                const permissionExists = token_data.content?.realm_access?.roles.map(item => item)
+                    .some((permission) => args.includes(permission))
+
+                if (!permissionExists) {
+                    return response.json(MESSAGE_RETURN([], CUSTOM_MESSAGE("VOCÊ NÃO TEM PERMISSÃO"), true));
+                }
+                return next()
             }
-            return next()
 
         } catch (error) {
             // @ts-ignore
@@ -80,7 +88,7 @@ export const keycloakAuthenticationMidleware = (request: Request, response: Resp
     try {
         // @ts-ignore 
         const token_data = new Token(token, process.env.KEYCLOAK_CLIENT_ID) as ILogin;
-       
+
 
         if (token_data.content.exp == 0) {
             return response?.json(MESSAGE_RETURN([], CUSTOM_MESSAGE("token invalid"), true))

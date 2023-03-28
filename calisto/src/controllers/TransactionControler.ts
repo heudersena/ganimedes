@@ -7,4 +7,5 @@ export class TransactionControler {
         const content = await TransactionDatabase.DatabaseMethodGetAll(String(request.user.content.email))
         return response.json(content)
     }
+
 }

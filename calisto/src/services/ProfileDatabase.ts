@@ -46,7 +46,7 @@ export class ProfileDatabase {
                 where: {
                     keycloak_id: keycloak_id
                 },
-                orderBy:{created_at: "desc"}
+                orderBy: { created_at: "desc" }
             })
 
             return ExecuteReturn(content)

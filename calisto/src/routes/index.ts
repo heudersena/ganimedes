@@ -1,10 +1,12 @@
 import express from "express"
 import { resolve } from "path"
+import { WithDrawManagementController } from "../controllers/management/WithDrawManagementController"
 import { PercentageController } from "../controllers/PercentageController"
 import { ProfileController } from "../controllers/ProfileController"
 import { TransactionControler } from "../controllers/TransactionControler"
 import { WebhookController } from "../controllers/WebhookController"
-import { keycloakAuthenticationMidleware } from "../middleware/keycloak"
+import { WithDrawController } from "../controllers/WithDrawController"
+import { keycloakAuthenticationMidleware, keycloakRolesMidlleware } from "../middleware/keycloak"
 import { validateResource } from "../middleware/validateResource"
 import { ExceptionProfileStoreDepositValidation } from "../validations/ExceptionProfileStoreDepositValidation"
 import { ExceptionProfileStoreValidation } from "../validations/ExceptionProfileStoreValidation"
@@ -27,6 +29,12 @@ route.post("/api/v1/percentage", PercentageController.store)
 
 route.post("/api/v1/transaction", keycloakAuthenticationMidleware, TransactionControler.index)
 
+// Solicitar Saque
+route.get("/api/v1/withdran", keycloakAuthenticationMidleware, WithDrawController.index)
+route.get("/api/v1/withdran/:id", keycloakAuthenticationMidleware, WithDrawController.getBayId)
+route.post("/api/v1/withdran", keycloakAuthenticationMidleware, WithDrawController.store)
+route.patch("/api/v1/withdran/:id", keycloakAuthenticationMidleware, WithDrawController.update)
+
 
 // CADASTRO
 // route.post("/api/v1/mercadopago-create", keycloakAuthenticationMidleware, MercadoPagoController.create)
@@ -34,5 +42,8 @@ route.post("/api/v1/transaction", keycloakAuthenticationMidleware, TransactionCo
 // MERCADO PAGO - WEBHOOKS
 route.post("/process_payment", WebhookController.webhook)
 // route.post("/mercadopago/verify", MercadoPagoController.get)
+
+// GERENCIAMENTO INTERNO
+route.get("/api/management/withdraw", keycloakAuthenticationMidleware,keycloakRolesMidlleware(["ROLE_ADMINISTRATOR","ROLE_ATENDENTE"]), WithDrawManagementController.index)
 
 export { route }
