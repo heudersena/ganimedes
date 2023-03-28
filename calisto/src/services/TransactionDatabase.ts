@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../db";
 import { MercadoPagoUtils } from "../utils/MercadoPago";
 import { PercentegeToDayDatabase } from "./PercentegeToDayDatabase";
@@ -93,13 +92,10 @@ export class TransactionDatabase {
 
     static async DatabaseMethodCreation(keycloak_id: string, money: number) {
         try {
-            console.log(keycloak_id,money);
             
             // PRA QUEM É ESSA TRANSAÇÃO -  VERIFICAR PELO KEYCLOAK_ID
             const profile = await ProfileDatabase.DatabaseMethodSelectOne(keycloak_id)
             const user_id = profile.data.id
-
-            console.log(profile);
             
 
             // PEGAR A PORCENTAGEM
@@ -120,8 +116,7 @@ export class TransactionDatabase {
                 }
 
             }) as IMP
-
-            console.log(mp);
+          
 
             // RECEBER O MONEY PARA CADASTRAR A TRANSAÇÃO.
             const transaction = await prisma.transaction.create({
