@@ -87,7 +87,7 @@ export class TransactionDatabase {
             }
         })
 
-        return content
+        return content[0]?.Transaction
     }
 
     static async DatabaseMethodCreation(keycloak_id: string, money: number) {

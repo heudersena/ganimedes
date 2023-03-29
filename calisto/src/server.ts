@@ -39,7 +39,7 @@ io.on('connection', (socket: any) => {
         connection: 'success'
     })
 
-    console.log("IO: ", socket)
+    // console.log("IO: ", socket)
 
 })
 

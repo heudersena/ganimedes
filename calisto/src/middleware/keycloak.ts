@@ -30,8 +30,9 @@ interface ILogin {
 }
 
 
+
+
 export const keycloakRolesMidlleware = (args: string[]) => {
-    console.log(args);
 
     return (request: Request, response: Response, next: NextFunction) => {
         const authHeader = request.headers?.authorization;
@@ -91,7 +92,7 @@ export const keycloakAuthenticationMidleware = (request: Request, response: Resp
 
 
         if (token_data.content.exp == 0) {
-            return response?.json(MESSAGE_RETURN([], CUSTOM_MESSAGE("token invalid"), true))
+            return response?.status(400).json(MESSAGE_RETURN([], CUSTOM_MESSAGE("token invalid"), true))
         }
 
         const signature = new Signature({
