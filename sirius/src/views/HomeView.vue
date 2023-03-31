@@ -10,47 +10,50 @@
 
       <div class="w-[20%]  block text-left">
         <div v-if="transaction.mercado_pago_transaction_status === 'cancelled'" class="text-red-400 text-xs font-bold">
-        {{view_status_transaction(transaction.mercado_pago_transaction_status) }}
+          {{ view_status_transaction(transaction.mercado_pago_transaction_status) }}
         </div>
-        
-          <div v-else-if="transaction.mercado_pago_transaction_status === 'pending'" class="text-yellow-400 text-xs font-bold">
-            {{view_status_transaction(transaction.mercado_pago_transaction_status) }}
-          </div>
-          <div v-else class="text-green-400 text-xs font-bold">
-            {{view_status_transaction(transaction.mercado_pago_transaction_status) }}
-          </div>
-        </div>
-       
-        <div>
-          <a v-if="transaction.mercado_pago_transaction_status === 'pending'"
-            :href="transaction.MercadoPago[0].m_ticket_url" target="_blank"
-            class="uppercase text-xs font-bold  hover:text-green-400">
-            <ReceiptTextCheckIcon class="text-yellow-400" />
-          </a>
-          <span v-if="transaction.mercado_pago_transaction_status === 'cancelled'" href="#"
-            class="uppercase text-xs font-bold ">
-          <CloseCircleIcon class="text-red-400" />
-          </span>
-          <span v-if="transaction.mercado_pago_transaction_status === 'approved'" href="#"
-            class="uppercase text-xs font-bold ">
-          <CheckDecagramIcon class="text-green-400" />
-          </span>
 
+        <div v-else-if="transaction.mercado_pago_transaction_status === 'pending'"
+          class="text-yellow-400 text-xs font-bold">
+          {{ view_status_transaction(transaction.mercado_pago_transaction_status) }}
+        </div>
+        <div v-else class="text-green-400 text-xs font-bold">
+          {{ view_status_transaction(transaction.mercado_pago_transaction_status) }}
         </div>
       </div>
 
+      <div>
+        <a v-if="transaction.mercado_pago_transaction_status === 'pending'"
+          :href="transaction.MercadoPago[0]?.m_ticket_url" target="_blank"
+          class="uppercase text-xs font-bold  hover:text-green-400">
+          <ReceiptTextCheckIcon class="text-yellow-400" />
+        </a>
+        <span v-if="transaction.mercado_pago_transaction_status === 'cancelled'" href="#"
+          class="uppercase text-xs font-bold ">
+          <CloseCircleIcon class="text-red-400" />
+        </span>
+        <span v-if="transaction.mercado_pago_transaction_status === 'approved'" href="#"
+          class="uppercase text-xs font-bold ">
+          <CheckDecagramIcon class="text-green-400" />
+        </span>
+
+      </div>
     </div>
+
+  </div>
 </template>
 
 <script setup>
 import { useAsyncState } from "@vueuse/core"
+
+import { getCurrentInstance } from 'vue'
 
 import ReceiptTextCheckIcon from "vue-material-design-icons/ReceiptTextCheck.vue"
 import CloseCircleIcon from "vue-material-design-icons/CloseCircle.vue"
 import CheckDecagramIcon from "vue-material-design-icons/CheckDecagram.vue"
 
 import api from "../plugins/axios";
-import { useTransaction } from "../composables/useTransaction";
+import { useAuth } from "../composables/useAuth"
 
 function view_type_transaction(values) {
   switch (values) {
@@ -78,11 +81,23 @@ function moneuBr(money) {
   return Number(money).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
 
+const { users } = useAuth()
+
+const app = getCurrentInstance()
+const socket = app.appContext.config.globalProperties.$socket
+
+socket.on("message", u => {
+  const { state: transactions, transactionIsLoading } = useAsyncState(api.post("/transaction").then(t => t.data), [], { resetOnExecute: false })
+  console.log(transactions);
+})
+
 
 // TODO
 const { state: transactions, transactionIsLoading } = useAsyncState(api.post("/transaction").then(t => t.data), [], { resetOnExecute: false })
 // const {state:balance, isLoading: balanceIsLoading} = useAsyncState(api.post("/profile/balance").then(t=>t.data),[],{resetOnExecute:false})
-console.log(transactions);
+
+
+
 
 </script>
 

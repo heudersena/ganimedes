@@ -48,6 +48,7 @@
         
 
 <script setup>
+
 import { RouterView, RouterLink } from "vue-router";
 import LogoutIcon from "vue-material-design-icons/Logout.vue"
 import CashSyncIcon from "vue-material-design-icons/CashSync.vue"
@@ -55,6 +56,7 @@ import PlusCircleIcon from "vue-material-design-icons/PlusCircle.vue"
 import CashMultipleIcon from "vue-material-design-icons/CashMultiple.vue"
 import CartIcon from "vue-material-design-icons/Cart.vue"
 import CartOffIcon from "vue-material-design-icons/CartOff.vue"
+import { useAuthStore } from "@/stores";
 
 import { useAuth } from "../../composables/useAuth"
 import { useOpenClose } from "../../composables/useOpenClose"
@@ -62,11 +64,9 @@ import { useOpenClose } from "../../composables/useOpenClose"
 import MenuComponent from "../MenuComponent.vue"
 import FormDepositComponet from "../FormDepositComponet.vue"
 
+
 // Logount
-import { useAuthStore } from "@/stores";
 const authStore = useAuthStore();
-
-
 
 const { open, close, showOpenClose } = useOpenClose()
 const { users } = useAuth()
