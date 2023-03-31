@@ -24,7 +24,7 @@ export const useAuth = () => {
         localStorage.setItem('sirius::access_token', access_token);
     }
 
-    async function InternalLogin(username, password) {
+    async function InternalLogin(username, password) {       
         const data = {
             username,
             password,

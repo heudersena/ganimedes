@@ -9,7 +9,7 @@ export default defineConfig({
   })],
   cacheDir: false,
   server: {
-    port: 9000,
+    port: 4200,
     host: true
   },
   preview: {

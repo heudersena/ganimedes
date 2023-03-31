@@ -22,7 +22,7 @@ export default {
 
         const user = await api.post("/profile/me")
 
-
+        console.log(user.data?.user?.data);
         const { setUsers } = useAuth();
 
         setUsers(user.data?.user?.data)

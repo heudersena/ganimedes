@@ -60,10 +60,10 @@ import { ref } from "vue"
 
 import OpenInNewIcon from "vue-material-design-icons/OpenInNew.vue"
 import ContentCopyIcon from "vue-material-design-icons/ContentCopy.vue"
+import { useDeposit } from "../composables/useDeposit"
 
 const { deposit, paymentsIsLoading, image_payments,url_payments,payments } = useDeposit()
 
-import { useDeposit } from "../composables/useDeposit"
 
 const schema = Yup.object().shape({
   balance: Yup.number("Precisa ser um numero").required("Digite um valor para fazer deposito")

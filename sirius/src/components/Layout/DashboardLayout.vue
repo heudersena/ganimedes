@@ -5,7 +5,8 @@
 
     <div class="flex items-center mt-8 text-sm">
       <div class=" p-10">
-        <img :src="'https://ui-avatars.com/api/?name='+users.first_name+users.second_name" class="rounded-full w-[130px]">
+        <!-- <img :src="'https://ui-avatars.com/api/?name='+users.first_name+users.second_name" class="rounded-full w-[130px]"> -->
+        <img src="https://github.com/heudersena.png" class="rounded-full w-[130px]">
       </div>
       <div>
         <div class="flex space-x-4 text-md">
@@ -16,10 +17,9 @@
 
 
         <div class="flex mt-2 space-x-4">
-          <div class="flex items-center space-x-1"> <CashMultipleIcon class="text-green-500" /> <span>{{users.balance}}</span> </div>
-          <div class="flex items-center space-x-1"><PlusCircleIcon class="text-blue-500" /> <span>{{users.bonus}}</span> </div>
+          <div class="flex items-center space-x-1"> <CashMultipleIcon class="text-green-500" /> <span>{{moneuBr(users.balance)}}</span> </div>
+          <div class="flex items-center space-x-1"><PlusCircleIcon class="text-blue-500" /> <span>{{moneuBr(users.bonus)}}</span> </div>
         </div>
-
         <div class="mt-6 text-gray-400 text-xs">
           <div class="uppercase ">#id 54471-85465-96364-85h5-96584j</div>
           <div>{{users.first_name}} {{users.second_name}}</div>
@@ -70,5 +70,10 @@ const authStore = useAuthStore();
 
 const { open, close, showOpenClose } = useOpenClose()
 const { users } = useAuth()
+
+
+function moneuBr(money) {
+  return Number(money).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+}
 
 </script>   

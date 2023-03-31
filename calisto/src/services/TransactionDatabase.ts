@@ -78,7 +78,7 @@ export class TransactionDatabase {
                     orderBy:{
                         created_at: "desc"
                     },
-                    take: 7
+                    
                 }
 
             },
