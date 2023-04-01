@@ -19,6 +19,12 @@
         </Form>
 
         <div class="mt-6">
+
+            <div v-show="!withdran.values?.data?.length" class="text-xs text-center flex flex-col text-red-500">
+                <span class="">Ops!</span>
+                <span>VOCÊ AINDA NÃO POSSUI SOLICITAÇÃO DE SAQUE</span>
+            </div>
+
             <div v-for=" (w, i) in withdran.values?.data" :key="i"
                 class="flex mt-2 p-4  justify-around items-center bg-gray-100">
                 <div class="space-y-4 text-xs">{{ moneuBr(w.amount) }}</div>
@@ -53,11 +59,11 @@ const { withdran } = useWithdran()
 
 const toast = useToast();
 
+
+
 const schema = Yup.object().shape({
     amount: Yup.number("Precisa ser um numero").required("Digite um valor para fazer sacar")
 });
-
-
 
 async function onSubmit(values, { setErrors }) {
     const { amount } = values;

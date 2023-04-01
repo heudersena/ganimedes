@@ -10,7 +10,8 @@ import LoginLayout from "../components/Layout/LoginLayout"
 
 export const router = createRouter({
     history: createWebHistory(),
-    linkActiveClass: 'active',
+    linkActiveClass: 'bg-teal-500/80',
+    linkExactActiveClass:'bg-teal-500/80',
     routes: [
         {
             path: '/',
