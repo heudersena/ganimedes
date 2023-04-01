@@ -19,7 +19,10 @@ export class WithDrawController {
         const amount = Number(request.body.amount)
         const keycloak_id = request.user.content.sub
         const content = await WithDrawDatabase.requestWithdrawal(amount, keycloak_id)
-        response.json(content)
+        if (!content.error) {
+            return response.status(200).json(content)
+        }
+        return response.status(400).json(content)
     }
 
     static async update(request: Request, response: Response) {

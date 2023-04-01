@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia';
 import VueSocketIO from 'socket.io-client'
+import Toast from "vue-toastification";
+
+import "vue-toastification/dist/index.css";
 
 import './assets/style.css'
 
@@ -18,6 +21,7 @@ if (!socketIo.socket) {
 }
 app.config.globalProperties.$socket = socketIo
 
+app.use(Toast)
 app.use(createPinia());
 app.use(router);
 

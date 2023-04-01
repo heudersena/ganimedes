@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import { HomeView, LoginView, RegisterView, DespositView } from '@/views';
+import { HomeView, LoginView, RegisterView, DespositView,SaqueView } from '@/views';
 
 import Guard from "../service/middleware"
 
@@ -26,6 +26,11 @@ export const router = createRouter({
                     path: "/deposit",
                     name: "deposit",
                     component: DespositView
+                },
+                {
+                    path: "/saque",
+                    name: "saque",
+                    component: SaqueView
                 }
             ]
         },
