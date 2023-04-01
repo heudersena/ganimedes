@@ -46,9 +46,10 @@ class ProfileController {
         return response.json(content)
     }
 
-    static async store_deposit(request: Request, response: Response, next: NextFunction) {
+    static async store_deposit(request: Request, response: Response, next: NextFunction) {        
         const balance = Number(request.body.balance)     
         const content = await TransactionDatabase.DatabaseMethodCreation(request.user.content.sub, balance)
+        request.io.sockets.in(request.user.content.email).emit('new-deposit', { update: true })
         return response.json(content)
     }
 
