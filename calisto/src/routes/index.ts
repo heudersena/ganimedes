@@ -13,8 +13,6 @@ import { ExceptionProfileStoreValidation } from "../validations/ExceptionProfile
 
 const route = express()
 
-route.get("/", (req, res) => res.sendFile(resolve(__dirname, "..", "view", "index.html")))
-
 route.post("/api/v1/profile/me", keycloakAuthenticationMidleware, ProfileController.me)
 route.get("/api/v1/profile/index", keycloakAuthenticationMidleware, ProfileController.index)
 route.post("/api/v1/profile/balance", keycloakAuthenticationMidleware, ProfileController.getTotalBalance)
