@@ -11,6 +11,7 @@ import { resolve } from "path"
 import { route } from "./routes"
 
 const app = express()
+
 const serverHttp = http.createServer(app);
 
 const io = new Server(serverHttp, {
@@ -29,7 +30,7 @@ io.on('connection', (socket: any) => {
     socket.join(socket.id)
 
     socket.on("/user", ({ email }) => {
-        console.log(email);        
+        console.log(email);
         socket.join(email)
 
     })

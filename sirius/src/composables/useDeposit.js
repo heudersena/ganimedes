@@ -13,6 +13,7 @@ export const useDeposit = () => {
 
         paymentsIsLoading.value = true;
         axios.post("/profile/store-deposit", { balance: Number(balance) }).then(response => {
+            console.log(response.data);
             payments.value = response.data;
             image_payments.value = response.data?.mercado_pago?.m_qr_code_base64;
             url_payments.value = response.data?.mercado_pago?.m_ticket_url;

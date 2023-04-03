@@ -68,7 +68,7 @@ const schema = Yup.object().shape({
 const { users } = useAuth()
 const app = getCurrentInstance()
 const socket = app.appContext.config.globalProperties.$socket
-socket.emit("/user", { email: users.value.email })
+socket.emit("/user", { email: users.value?.email })
 
 async function onSubmit(values, { setErrors }) {
   const { balance } = values;

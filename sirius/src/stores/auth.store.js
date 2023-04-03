@@ -34,8 +34,6 @@ export const useAuthStore = defineStore({
                     Authorization: "Bearer " + token.data?.access_token
                 }
             })
-            console.log(user_api_rest);
-
 
             // update pinia state
             this.user = user_api_rest.data?.request?.content;
@@ -50,6 +48,26 @@ export const useAuthStore = defineStore({
             return token.data?.access_token;
 
         },
+
+        async complitedRegister(username, password) {
+            const url = "http://192.168.0.103:8080/auth/realms/desenvolvimento/protocol/openid-connect/token"
+            const data = {
+                username,
+                password,
+                client_id: "account_web",
+                grant_type: "password",
+                scope: "openid"
+            }
+
+            const token = await axios.post(url, data, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            })
+
+            return token.data?.access_token;
+        },
+
         logout() {
             this.user = null;
             localStorage.removeItem('sirius::user');

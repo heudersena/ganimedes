@@ -2,12 +2,14 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia';
 import VueSocketIO from 'socket.io-client'
 import Toast from "vue-toastification";
+import { VueQueryPlugin } from "vue-query";
 
 import "vue-toastification/dist/index.css";
 
 import './assets/style.css'
 
 import App from './App.vue'
+
 import { router } from './helpers';
 import api from './plugins/axios';
 
@@ -24,5 +26,5 @@ app.config.globalProperties.$socket = socketIo
 app.use(Toast)
 app.use(createPinia());
 app.use(router);
-
+app.use(VueQueryPlugin)
 app.mount('#app');

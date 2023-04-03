@@ -5,12 +5,12 @@
 
       <div class="flex items-center mt-8 text-sm">
         <div class=" p-10">
-          <!-- <img :src="'https://ui-avatars.com/api/?name='+users.first_name+users.second_name" class="rounded-full w-[130px]"> -->
+          <!-- <img :src="'https://ui-avatars.com/api/?name='+users?.first_name+users.second_name" class="rounded-full w-[130px]"> -->
           <img src="https://github.com/heudersena.png" class="rounded-full w-[130px]">
         </div>
         <div>
           <div class="flex space-x-4 text-md">
-            <div class="font-bold">{{ users.email }}</div>
+            <div class="font-bold">{{ users?.email }}</div>
             <button class="py-1 px-2 rounded text-white text-[9px] bg-[#7159c1] hover:bg-[#7159c1]/80">Editar
               perfil</button>
             <button @click="authStore.logout()">
@@ -21,17 +21,17 @@
 
           <div class="flex mt-2 space-x-4">
             <div class="flex items-center space-x-1">
-              <CashMultipleIcon class="text-green-500" /> <span>{{ moneuBr(users.balance) }}</span>
+              <CashMultipleIcon class="text-green-500" /> <span>{{ moneuBr(users?.balance ?? 0.00) }}</span>
             </div>
             <div class="flex items-center space-x-1">
-              <PlusCircleIcon class="text-blue-500" /> <span>{{ moneuBr(users.bonus) }}</span>
+              <PlusCircleIcon class="text-blue-500" /> <span>{{ moneuBr(users?.bonus ?? 0.00) }}</span>
             </div>
           </div>
           <div class="mt-6 text-gray-400 text-xs">
             <div class="uppercase ">#id 54471-85465-96364-85h5-96584j</div>
-            <div>{{ users.first_name }} {{ users.second_name }}</div>
-            <div> {{ users.phone }}</div>
-            <div>Chave Pix: {{ users.keyPix }}</div>
+            <div>{{ users?.first_name }} {{ users?.second_name }}</div>
+            <div> {{ users?.phone }}</div>
+            <div>Chave Pix: {{ users?.keyPix }}</div>
           </div>
           <div class="mt-2">
             <button v-if="!showOpenClose" @click="open()"

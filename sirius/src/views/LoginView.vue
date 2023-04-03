@@ -44,20 +44,17 @@
             <span v-show="isSubmitting">carregando...</span>
             Entrar
           </button>
-          <a href="/register" class="text-blue-700 hover:text-blue-700/80"
-            >ainda não tem uma conta?</a
-          >
+          <RouterLink to="/register" class="text-blue-700 hover:text-blue-700/80">
+            Já possui uma conta?
+          </RouterLink>
         </div>
-
-        <!-- <div v-if="errors.apiError">
-          {{ errors.apiError }}
-        </div> -->
       </div>
     </Form>
 </template>
 
 
 <script setup>
+import { RouterLink } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 

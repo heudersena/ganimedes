@@ -26,13 +26,8 @@ interface CustomRequest<T> extends Request {
 export class WebhookController {
 
     static async webhook(request: CustomRequest<IWebHook>, response: Response, next: NextFunction) {
-        console.log("=============== WEBHOOK ================");
-        console.log(request.body);
-        console.log("=============== WEBHOOK ================");
         try {
             const content = await WebhookDatabase.WebHook(request.body.data.id, request.body.action);
-            console.log(content);
-
             return response.json({ "MethodPayment": true })
         } catch (error) {
             console.log(error);
@@ -41,5 +36,17 @@ export class WebhookController {
 
 
 
+    }
+
+    static async cron(request: CustomRequest<IWebHook>, response: Response, next: NextFunction) {
+        const id = request.query.id
+        const content = await WebhookDatabase.cron(Number(id)) as any
+
+        const contentMap = {
+            status: content?.body?.status,
+            status_detail: content?.body?.status_detail,
+            ...content?.response
+        }
+        return response.json(contentMap)
     }
 }

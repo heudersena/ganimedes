@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { router } from '@/helpers';
-
 import api from '../plugins/axios';
 import axios from 'axios';
 
@@ -62,16 +61,15 @@ export const useRegisterStore = defineStore({
                 })
                 if (new_user) {
                     const create_Login = useAuthStore()
-                    const response = await create_Login.login(email, password)
-                    console.log(response);
-                    console.log(password, lastname, firstname, email, phone, keyPix);
-                    await api.post("/profile/store",{keyPix,phone},{
-                        headers:{
-                            "Authorization": "Bearer "+response
+                    const response = await create_Login.complitedRegister(email, password)
+                    await api.post("/profile/store", { keyPix, phone }, {
+                        headers: {
+                            "Authorization": "Bearer " + response
                         }
                     })
 
                 }
+                router.push("/login")
                 return new_user
             } catch (error) {
 

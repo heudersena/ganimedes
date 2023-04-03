@@ -6,9 +6,7 @@ const api = axios.create({
 
 
 api.interceptors.request.use((request) => {
-    // Buscando seu token salvo no localstorage ou qualquer outro local
     const token = localStorage.getItem("sirius::access_token");
-
     if (token) {
         request.headers.Authorization = "Bearer " + token;
     }
