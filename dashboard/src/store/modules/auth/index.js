@@ -1,6 +1,4 @@
-import { createStore } from "vuex";
-
-const store = createStore({
+export default {
   namespaced: true,
   state: {
     user: {
@@ -10,11 +8,11 @@ const store = createStore({
   },
   getters: {
     fullName(state) {
-      return state.user.length;
+      return state.user.first_name + " " + state.user.last_name;
     },
   },
   mutations: {},
-  actions: {},
-});
-
-export default store;
+  actions: {
+    clean() {}
+  },
+};
