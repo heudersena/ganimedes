@@ -24,15 +24,10 @@ const io = new Server(serverHttp, {
 
 
 io.on('connection', (socket: any) => {
-
-    console.log(socket.id);
-
     socket.join(socket.id)
-
     socket.on("/user", ({ email }) => {
         console.log(email);
         socket.join(email)
-
     })
 
     socket.on("/new-balance", (balance) => {

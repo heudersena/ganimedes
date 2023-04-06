@@ -75,14 +75,19 @@ export class TransactionDatabase {
             include: {
                 Transaction: {
                     include: { MercadoPago: true },
-                    orderBy:{
+                    orderBy: {
                         created_at: "desc"
                     },
-                    
+                    where: {
+                        mercado_pago_transaction_status: "pending"
+
+                    },
+                    take: 5
+
                 }
 
             },
-            orderBy:{
+            orderBy: {
                 created_at: "desc"
             }
         })
@@ -92,11 +97,11 @@ export class TransactionDatabase {
 
     static async DatabaseMethodCreation(keycloak_id: string, money: number) {
         try {
-            
+
             // PRA QUEM É ESSA TRANSAÇÃO -  VERIFICAR PELO KEYCLOAK_ID
             const profile = await ProfileDatabase.DatabaseMethodSelectOne(keycloak_id)
             const user_id = profile.data.id
-            
+
 
             // PEGAR A PORCENTAGEM
             const percentages = await PercentegeToDayDatabase.DatabaseMethodSelectAll()
@@ -116,7 +121,7 @@ export class TransactionDatabase {
                 }
 
             }) as IMP
-          
+
 
             // RECEBER O MONEY PARA CADASTRAR A TRANSAÇÃO.
             const transaction = await prisma.transaction.create({

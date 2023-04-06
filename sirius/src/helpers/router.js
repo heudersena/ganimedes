@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import { HomeView, LoginView, RegisterView, DespositView,SaqueView } from '@/views';
+import { HomeView, LoginView, RegisterView, DespositView, SaqueView, MeView } from '@/views';
 
 import Guard from "../service/middleware"
 
 import DashboardLayout from "../components/Layout/DashboardLayout"
 import LoginLayout from "../components/Layout/LoginLayout"
+import MeLayout from "../components/Layout/MeLayout"
 
 export const router = createRouter({
     history: createWebHistory(),
     linkActiveClass: 'bg-teal-500/80',
-    linkExactActiveClass:'bg-teal-500/80',
+    linkExactActiveClass: 'bg-teal-500/80',
     routes: [
         {
             path: '/',
@@ -33,7 +34,21 @@ export const router = createRouter({
                     name: "saque",
                     component: SaqueView
                 }
+
             ]
+        },
+        {
+            path: '/me',
+            component: MeLayout,
+            beforeEnter: Guard.redirectIfNotAuthenticated,
+            children: [
+                {
+                    path: "",
+                    name: "me",
+                    component: MeView
+                }
+            ]
+
         },
         {
             path: '/login',

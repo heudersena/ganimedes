@@ -13,12 +13,21 @@ import { TypeTransaction } from "../plugins/enums/TypeTransaction"
 const app = getCurrentInstance()
 const socket = app.appContext.config.globalProperties.$socket
 
-socket.on("new-deposit", _ => { })
+socket.on("new-deposit", data => {
+  console.log("HomeView.vue: ", data);
+})
 
 
-const { state: transactions, transactionIsLoading } = useAsyncState(api.post("/transaction").then(t => t.data), [], { resetOnExecute: false })
 
 
+const { state: transactions, transactionIsLoading } = useAsyncState(api.post("/transaction").then(t => t.data), [], { resetOnExecute: true })
+
+onMounted(() => {
+  socket.on("new-deposit", data => {
+    transactions.value = data.new_array
+    console.log(data.new_array);
+  })
+})
 
 </script>
 

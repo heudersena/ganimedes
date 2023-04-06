@@ -11,8 +11,9 @@
         <div>
           <div class="flex space-x-4 text-md">
             <div class="font-bold">{{ users?.email }}</div>
-            <button class="py-1 px-2 rounded text-white text-[9px] bg-[#7159c1] hover:bg-[#7159c1]/80">Editar
-              perfil</button>
+            <RouterLink to="/me" class="py-1 px-2 rounded text-white text-[9px] bg-[#7159c1] hover:bg-[#7159c1]/80">
+              Editar perfil
+            </RouterLink>
             <button @click="authStore.logout()">
               <LogoutIcon class="text-yellow-500" />
             </button>

@@ -7,7 +7,20 @@ import { ExecuteReturn } from "../utils/ExecuteReturn"
 export class WithDrawDatabase {
     static async index(keycloak_id: string) {
         const user_id = await this.INTERNAL_GET_ME_USER(keycloak_id)
-        const content = await prisma.withdrawal.findMany({ where: { profile_id: user_id?.id! },orderBy:{created_at: 'desc'} })
+        const content = await prisma.withdrawal.findMany({
+            where: {
+                profile_id: user_id?.id!,
+                NOT: {
+                    status: "accepted"
+                }
+
+            },
+            orderBy:
+            {
+                created_at: 'desc'
+            },
+            take: 7
+        })
         return ExecuteReturn(content, false, "")
     }
     static async getBayId(id: string) {

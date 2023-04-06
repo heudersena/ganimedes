@@ -6,6 +6,7 @@ import { useAuth } from "../composables/useAuth";
 
 export default {
     redirectIfAuthenticated(to, from, next) {
+        console.log("redirectIfAuthenticated");
         const auth = useAuthStore()
         let n
 
@@ -17,8 +18,11 @@ export default {
         next(n)
     },
     async redirectIfNotAuthenticated(to, from, next) {
+
         const auth = useAuthStore()
         let n
+
+
 
         const user = await api.post("/profile/me")
         const { setUsers } = useAuth();
@@ -41,7 +45,6 @@ export default {
             }
 
         }
-
         next(n)
     }
 
