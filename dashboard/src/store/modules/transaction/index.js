@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 
 export default {
   namespaced: true,
@@ -11,7 +10,7 @@ export default {
   mutations: {
     setTransaction(state, values) {
       state.transactions.push({
-        id: v4(),
+        id: "",
         transaction: values,
       });
     },

@@ -1,9 +1,10 @@
 import { createStore } from "vuex";
+import persistedstate from "vuex-persistedstate";
+import secureLS from "secure-ls";
 
 import auth from "./modules/auth";
 import transaction from "./modules/transaction";
-import persistedstate from "vuex-persistedstate";
-import secureLS from "secure-ls";
+import menu from "./modules/menu";
 
 const ls = new secureLS({ isCompression: false, encodingType: "aes" });
 const CHAVE_LOCAL = "c7dc0ec8-e4d1-4782-856f-b697c7c4c812";
@@ -13,11 +14,12 @@ export const store = createStore({
   modules: {
     auth,
     transaction,
+    menu
   },
   plugins: [
     persistedstate({
       key: CHAVE_LOCAL,
-      paths: ["transaction", "auth"],
+      paths: ["transaction", "auth", "menu"],
       storage: {
         getItem: (key) => ls.get(key),
         setItem: (key, value) => ls.set(key, value),
