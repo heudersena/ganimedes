@@ -1,12 +1,14 @@
 <template>
     <div class="w-full h-full overflow-hidden flex">
-        <div :class="GetIsMenuOpen ? 'md:w-[5%] flex justify-center ' : ''" class="hidden md:block md:w-[15%] h-screen bg-slate-900/90 border-r border-blue-300 shadow-blue-100 shadow-sm">
+        <div :class="GetIsMenuOpen ? 'md:w-[5%] flex justify-center ' : ''"
+            class="hidden md:block md:w-[15%] h-screen bg-slate-900/90 border-r border-blue-300 shadow-blue-100 shadow-sm">
             <LogoComponent />
             <NavegationComponent />
         </div>
 
         <div class="w-full">
-            <header :class="GetIsMenuOpen ? '' : ''" class="h-16 border-b border-gray-100  shadow-sm w-full flex items-center">
+            <header :class="GetIsMenuOpen ? '' : ''"
+                class="h-16 border-b border-gray-100  shadow-sm w-full flex items-center">
                 <div class="flex justify-between w-full mx-3">
                     <div @click="FNIsOpen">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -31,18 +33,18 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useStore } from "vuex";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-import NavegationComponent from "./NavegationComponent.vue"
-import LogoComponent from "./LogoComponent.vue"
+import NavegationComponent from './NavegationComponent.vue';
+import LogoComponent from './LogoComponent.vue';
 
 const store = useStore();
-console.log("dispatch: ", store.dispatch);
+console.log('dispatch: ', store.dispatch);
 
 function FNIsOpen() {
-    store.dispatch("menu/updateIsMenuOpen")
+    store.dispatch('menu/updateIsMenuOpen');
 }
-const GetIsMenuOpen = computed(() => store.getters["menu/GetIsMenuOpen"])
+const GetIsMenuOpen = computed(() => store.getters['menu/GetIsMenuOpen']);
 
 </script>

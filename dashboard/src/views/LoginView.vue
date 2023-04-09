@@ -1,5 +1,5 @@
 <script setup>
-import "../assets/photon.min.css"
+import '../assets/photon.min.css';
 </script>
 
 <template>

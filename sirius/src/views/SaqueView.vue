@@ -80,9 +80,9 @@ function moneuBr(money) {
 }
 
 function formatDate(date) {
-   const responseData = new Date(date).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-   const responseHora = new Date(date).toLocaleTimeString('pt-BR','long')
-   return responseData + ' às ' + responseHora
+    const responseData = new Date(date).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    const responseHora = new Date(date).toLocaleTimeString('pt-BR', 'long')
+    return responseData + ' às ' + responseHora
 }
 
 

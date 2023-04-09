@@ -2,12 +2,12 @@
 
 <script setup>
 
-import { useStore } from "vuex";
-import { v4 } from "uuid";
-import { computed } from "vue"
+import { useStore } from 'vuex';
+import { v4 } from 'uuid';
+import { computed } from 'vue';
 
-import { RouterView } from 'vue-router'
-import secureLS from "secure-ls";
+import { RouterView } from 'vue-router';
+import secureLS from 'secure-ls';
 
 const ls = new secureLS({ isCompression: false });
 
@@ -18,18 +18,18 @@ const store = useStore();
 // store.dispatch("add")
 
 function save() {
-  store.dispatch("transaction/add", v4());
+    store.dispatch('transaction/add', v4());
 }
 
 function clear() {
-  store.dispatch("transaction/clean", []);
-  ls.clear()
+    store.dispatch('transaction/clean', []);
+    ls.clear();
 
 }
 
 
 // const transactions = computed(() => this.$store.state.transaction.transactions)
-const transactions = computed(() => store.state.transaction.transactions)
+const transactions = computed(() => store.state.transaction.transactions);
 
 </script>
 

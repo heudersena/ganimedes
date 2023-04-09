@@ -25,11 +25,11 @@
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
-import { computed } from 'vue'
-import { useStore } from "vuex";
+import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
 const store = useStore();
-const GetIsMenuOpen = computed(() => store.getters["menu/GetIsMenuOpen"])
+const GetIsMenuOpen = computed(() => store.getters['menu/GetIsMenuOpen']);
 
 </script>
