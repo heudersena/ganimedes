@@ -43,6 +43,10 @@ route.get("/cron", WebhookController.cron)
 // route.post("/mercadopago/verify", MercadoPagoController.get)
 
 // GERENCIAMENTO INTERNO
-route.get("/api/management/withdraw", keycloakAuthenticationMidleware, keycloakRolesMidlleware(["ROLE_ADMINISTRATOR", "ROLE_ATENDENTE"]), WithDrawManagementController.index)
+// keycloakRolesMidlleware(["ROLE_ADMINISTRATOR", "ROLE_ATENDENTE"])
+// keycloakAuthenticationMidleware, 
+route.get("/api/management/withdraw",  WithDrawManagementController.index)
+route.get("/api/management/withdraw/:id",  WithDrawManagementController.getBayId)
+route.patch("/api/management/withdraw/:id",  WithDrawManagementController.update)
 
 export { route }

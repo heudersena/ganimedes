@@ -20,6 +20,7 @@ export class WithDrawController {
         const keycloak_id = request.user.content.sub
         const content = await WithDrawDatabase.requestWithdrawal(amount, keycloak_id)
         if (!content.error) {
+            request.io.emit("SOLICITACAO_SAQUE")
             return response.status(200).json(content)
         }
         return response.status(400).json(content)

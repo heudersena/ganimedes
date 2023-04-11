@@ -6,7 +6,6 @@ import CardComponent from '../components/CardComponent.vue';
   <main class="w-full m-6 mt-8">
 
     <CardComponent>
-      fdsfsd
     </CardComponent>
 
   </main>

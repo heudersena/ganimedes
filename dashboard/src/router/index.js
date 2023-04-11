@@ -37,6 +37,18 @@ const router = createRouter({
                     component: () =>
                         import(/* webpackChunkName: "login" */ '../views/SaqueView.vue'),
                 },
+                {
+                    path: '/saque-completed',
+                    name: 'saque-completed',
+                    component: () =>
+                        import(/* webpackChunkName: "login" */ '../views/saque/SaqueCompletedView.vue'),
+                },
+                {
+                    path: '/saque-editar/:id/:keycloakid',
+                    name: 'saque-editar',
+                    component: () =>
+                        import(/* webpackChunkName: "login" */ '../views/saque/SaqueEditView.vue'),
+                },
             ],
         },
     ],

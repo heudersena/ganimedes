@@ -22,6 +22,7 @@ module.exports = {
         'semi': ['error', 'always'],
         'quotes': ['error', 'single'],
         'indent': ['error', 4],
-        'comma-spacing': ['error', { before: false, after: true }]
+        'comma-spacing': ['error', { before: false, after: true }],
+        'vue/no-unused-vars': ['error', {'ignorePattern': '^_' }]
     }
 };

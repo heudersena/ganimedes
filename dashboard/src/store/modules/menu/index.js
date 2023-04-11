@@ -1,23 +1,24 @@
 export default {
-  namespaced: true,
-  state: {
-    isMenuOpen: false,
-  },
+    namespaced: true,
+    state: {
+        isMenuOpen: false,
+    },
 
-  getters: {
-    GetIsMenuOpen(state) {
-      return state.isMenuOpen;
+    getters: {
+        GetIsMenuOpen(state) {
+            return state.isMenuOpen;
+        },
     },
-  },
-  mutations: {
-    setIsMenuOpen(state, payload) {
-      state.isMenuOpen = !state.isMenuOpen;
+    mutations: {
+        // eslint-disable-next-line no-unused-vars
+        setIsMenuOpen(state, payload) {
+            state.isMenuOpen = !state.isMenuOpen;
+        },
     },
-  },
-  actions: {
-    updateIsMenuOpen({ commit }, values) {
+    actions: {
+        updateIsMenuOpen({ commit }, values) {
        
-      commit("setIsMenuOpen", values);
+            commit('setIsMenuOpen', values);
+        },
     },
-  },
 };

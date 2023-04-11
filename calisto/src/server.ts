@@ -4,6 +4,7 @@ import compression from "compression"
 import expressWinston from "express-winston"
 import winston from "winston"
 import { Server } from 'socket.io';
+import cors from "cors"
 import http from "http"
 
 import { resolve } from "path"
@@ -17,7 +18,7 @@ const serverHttp = http.createServer(app);
 const io = new Server(serverHttp, {
     cors: {
         origin: "*",
-        methods: ["GET", "POST", "PUT", "DELETE"]
+        methods: ["GET", "POST", "PUT", "DELETE", "PATH"]
     }
 });
 
@@ -54,6 +55,7 @@ app.use((request: Request, response: Response, next: NextFunction) => {
 //     )
 // }));
 
+app.use(cors())
 app.use(compression())
 app.use(express.json())
 

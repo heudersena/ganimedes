@@ -12,4 +12,14 @@ export class WithDrawManagementController {
         const content = await WithDrawDatabaseManagement.getBayId(id)
         return response.json(content)
     }
+
+    static async update(request: Request, response: Response) {
+        const id = request.params.id
+        const keycloakid = request.body.keycloakid
+        const description = request.body.description
+        const status = request.body.status
+
+        const content = await WithDrawDatabaseManagement.update(id, keycloakid, status, description)
+        return response.json({ content })
+    }
 }

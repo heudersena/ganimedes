@@ -1,6 +1,6 @@
 <template>
-    <RouterLink to="/home"
-        class="flex items-center cursor-pointer space-x-3 hover:text-purple-500 hover:bg-gray-400/30 p-4" :class="GetIsMenuOpen ? 'justify-center' : ''">
+    <RouterLink to="/home" class="flex items-center cursor-pointer space-x-3 hover:text-purple-500 hover:bg-gray-400/30 p-4"
+        :class="GetIsMenuOpen ? 'justify-center' : ''">
         <span class="">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6 text-white">
@@ -11,7 +11,8 @@
         <span class="font-semibold text-white" :class="GetIsMenuOpen ? 'hidden' : ''">Home</span>
     </RouterLink>
     <RouterLink to="/saque"
-        class="flex items-center cursor-pointer space-x-3 hover:text-purple-500 hover:bg-gray-400/30  p-4" :class="GetIsMenuOpen ? 'justify-center' : ''">
+        class="flex items-center cursor-pointer space-x-3 hover:text-purple-500 hover:bg-gray-400/30  p-4"
+        :class="GetIsMenuOpen ? 'justify-center' : ''">
         <span class="">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6 text-white">
@@ -25,9 +26,9 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { RouterLink } from 'vue-router';
 
 const store = useStore();
 const GetIsMenuOpen = computed(() => store.getters['menu/GetIsMenuOpen']);
