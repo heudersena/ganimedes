@@ -10,6 +10,8 @@ import saque from './modules/saque';
 const ls = new secureLS({ isCompression: false, encodingType: 'aes' });
 const CHAVE_LOCAL = 'c7dc0ec8-e4d1-4782-856f-b697c7c4c812';
 
+console.log(localStorage.getItem(CHAVE_LOCAL));
+
 export const store = createStore({
     strict: true,
     modules: {

@@ -6,8 +6,8 @@ import HomeComponent from '../components/Layout/HomeComponent.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    linkActiveClass: 'bg-gray-500/80',
-    linkExactActiveClass: 'bg-gray-500/80',
+    linkActiveClass: 'text-yellow-500',
+    linkExactActiveClass: 'text-yellow-500',
     routes: [
         {
             path: '/',
@@ -49,6 +49,11 @@ const router = createRouter({
                     component: () =>
                         import(/* webpackChunkName: "login" */ '../views/saque/SaqueEditView.vue'),
                 },
+                {
+                    path: "/listagem-de-saques",
+                    name: "listagem-de-saques",
+                    component: () => import(/* webpackChunkName: "ListagemView" */ '../modules/saques/view/ListagemView.vue'),
+                }
             ],
         },
     ],

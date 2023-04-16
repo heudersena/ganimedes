@@ -7,6 +7,10 @@ export default {
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/line-clamp'),
+        require('tailwind-scrollbar')
+    ],
     // important: true,
 };

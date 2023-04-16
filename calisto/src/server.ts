@@ -25,6 +25,8 @@ const io = new Server(serverHttp, {
 
 
 io.on('connection', (socket: any) => {
+    console.log("ID: ", socket.id);
+    
     socket.join(socket.id)
     socket.on("/user", ({ email }) => {
         console.log(email);

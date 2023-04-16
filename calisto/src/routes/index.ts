@@ -10,6 +10,7 @@ import { keycloakAuthenticationMidleware, keycloakRolesMidlleware } from "../mid
 import { validateResource } from "../middleware/validateResource"
 import { ExceptionProfileStoreDepositValidation } from "../validations/ExceptionProfileStoreDepositValidation"
 import { ExceptionProfileStoreValidation } from "../validations/ExceptionProfileStoreValidation"
+import { MercadoPagoManagementController } from "../controllers/management/MercadoPagoManagementController"
 
 const route = express()
 
@@ -48,5 +49,7 @@ route.get("/cron", WebhookController.cron)
 route.get("/api/management/withdraw",  WithDrawManagementController.index)
 route.get("/api/management/withdraw/:id",  WithDrawManagementController.getBayId)
 route.patch("/api/management/withdraw/:id",  WithDrawManagementController.update)
+
+route.get("/prejuizo", MercadoPagoManagementController.CREDITO_MERCADO_PAGO)
 
 export { route }

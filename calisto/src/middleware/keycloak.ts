@@ -106,6 +106,8 @@ export const keycloakAuthenticationMidleware = (request: Request, response: Resp
         try {
             signature.verify(token_data, null).then((t: ILogin) => {
                 request.user = t
+                console.log(t);
+                
                 next();
 
             }).catch(error => {

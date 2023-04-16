@@ -1,5 +1,7 @@
 import { createApp } from 'vue';
 import VueSocketIO from 'socket.io-client';
+import { createVfm } from 'vue-final-modal'
+import 'vue-final-modal/style.css'
 import App from './App.vue';
 import router from './router';
 import { store } from './store';
@@ -14,4 +16,10 @@ if (!socketIo.socket) {
 }
 app.config.globalProperties.$socket = socketIo;
 
-app.use(router).use(store).mount('#app');
+app.use(router)
+app.use(store)
+app.use(createVfm())
+app.mount('#app');
+
+// https://youtu.be/6JK0WJG9JIs
+// https://gitlab.com/DanCruise/laraproducts
