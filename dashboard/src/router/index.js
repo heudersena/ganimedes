@@ -53,7 +53,12 @@ const router = createRouter({
                     path: "/listagem-de-saques",
                     name: "listagem-de-saques",
                     component: () => import(/* webpackChunkName: "ListagemView" */ '../modules/saques/view/ListagemView.vue'),
-                }
+                },
+                {
+                    path: "/saques/editar/:id",
+                    name: "saques-editar",
+                    component: () => import(/* webpackChunkName: "saques-editar" */ '../modules/saques/view/EditarView.vue'),
+                },
             ],
         },
     ],

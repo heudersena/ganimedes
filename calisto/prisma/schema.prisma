@@ -1,236 +1,236 @@
 generator client {
-  provider   = "prisma-client-js"
-  engineType = "binary"
+    provider   = "prisma-client-js"
+    engineType = "binary"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 enum ROLE_PROFILE {
-  ROLE_ADMINISTRATOR
-  ROLE_EDIT
-  ROLE_OPERATOR
-  ROLE_ATTENDANT
-  ROLE_PLAYER
+    ROLE_ADMINISTRATOR
+    ROLE_EDIT
+    ROLE_OPERATOR
+    ROLE_ATTENDANT
+    ROLE_PLAYER
 }
 
 enum ROLE_TRANSACTION {
-  ROLE_WITHDRAWALS // SAQUES
-  ROLE_DEPOSIT // DEPOSITO
-  ROLE_AWARDED // PREMIADO
-  ROLE_LOST_PLAY // JOGADA PERDIDA
+    ROLE_WITHDRAWALS // SAQUES
+    ROLE_DEPOSIT // DEPOSITO
+    ROLE_AWARDED // PREMIADO
+    ROLE_LOST_PLAY // JOGADA PERDIDA
 }
 
 model Profile {
-  id             String       @id @default(uuid())
-  keycloak_id    String?      @unique
-  first_name     String
-  second_name    String
-  email          String       @unique
-  cpf            String?      @unique
-  balance        Decimal?     @default(0.00) @db.Decimal(9, 2)
-  bonus          Decimal?     @default(0.00) @db.Decimal(9, 2)
-  phone          String
-  keyPix         String
-  type_profile   ROLE_PROFILE @default(ROLE_PLAYER)
-  reference_code String       @default("NULL")
+    id             String       @id @default(uuid())
+    keycloak_id    String?      @unique
+    first_name     String
+    second_name    String
+    email          String       @unique
+    cpf            String?      @unique
+    balance        Decimal?     @default(0.00) @db.Decimal(9, 2)
+    bonus          Decimal?     @default(0.00) @db.Decimal(9, 2)
+    phone          String
+    keyPix         String
+    type_profile   ROLE_PROFILE @default(ROLE_PLAYER)
+    reference_code String       @default("NULL")
 
-  created_at        DateTime            @default(now())
-  updated_at        DateTime            @default(now()) @updatedAt
-  Transaction       Transaction[]
-  Terms             Term[]
-  Accumulator_bonus Accumulator_bonus[]
-  withdrawal        Withdrawal[]
-  Called            Called[]
+    created_at        DateTime            @default(now())
+    updated_at        DateTime            @default(now()) @updatedAt
+    Transaction       Transaction[]
+    Terms             Term[]
+    Accumulator_bonus Accumulator_bonus[]
+    withdrawal        Withdrawal[]
+    Called            Called[]
 
-  @@map("profiles")
+    @@map("profiles")
 }
 
 enum mercado_pago_transaction_status_rules {
-  pending
-  approved
-  cancelled
+    pending
+    approved
+    cancelled
 }
 
 model Transaction {
-  id String @id @default(uuid())
+    id String @id @default(uuid())
 
-  profile                         Profile                               @relation(fields: [profile_id], references: [id])
-  profile_id                      String
-  balance                         Decimal                               @default(0.00) @db.Decimal(9, 2)
-  bonus                           Decimal                               @default(0.00) @db.Decimal(9, 2)
-  percentage_bonus                Int                                   @default(0)
-  type_transaction                ROLE_TRANSACTION
-  mercado_pago_transaction_status mercado_pago_transaction_status_rules @default(pending)
-  description                     String?
-  is_payment                      Boolean                               @default(false)
-  is_employee_paid                Boolean                               @default(false) // VERIDICA SE FOI PAGO A COMISSÃO PARA O FUNCIONÁRIO
+    profile                         Profile                               @relation(fields: [profile_id], references: [id])
+    profile_id                      String
+    balance                         Decimal                               @default(0.00) @db.Decimal(9, 2)
+    bonus                           Decimal                               @default(0.00) @db.Decimal(9, 2)
+    percentage_bonus                Int                                   @default(0)
+    type_transaction                ROLE_TRANSACTION
+    mercado_pago_transaction_status mercado_pago_transaction_status_rules @default(pending)
+    description                     String?
+    is_payment                      Boolean                               @default(false)
+    is_employee_paid                Boolean                               @default(false) // VERIDICA SE FOI PAGO A COMISSÃO PARA O FUNCIONÁRIO
 
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @default(now()) @updatedAt
-  Receipt     Receipt[]
-  MercadoPago MercadoPago[]
+    created_at  DateTime      @default(now())
+    updated_at  DateTime      @default(now()) @updatedAt
+    Receipt     Receipt[]
+    MercadoPago MercadoPago[]
 
-  @@map("transactions")
+    @@map("transactions")
 }
 
 model Term {
-  id          String  @id @default(uuid())
-  profile     Profile @relation(fields: [profileId], references: [id])
-  profileId   String
-  is_accepted Boolean
+    id          String  @id @default(uuid())
+    profile     Profile @relation(fields: [profileId], references: [id])
+    profileId   String
+    is_accepted Boolean
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("terms")
+    @@map("terms")
 }
 
 model Text_description {
-  id           String @id @default(uuid())
-  descriptions String @db.VarChar(999)
+    id           String @id @default(uuid())
+    descriptions String @db.VarChar(999)
 
-  @@map("text_descriptions")
+    @@map("text_descriptions")
 }
 
 // ESTÁ TABLE SERVER PARA ANEXAR OS COMPROVANTES DE PAGAMENTOS DE TRANSFERÊNCIA QUANDO O USUÁRIO SOLICITAR O SAQUE
 
 model Receipt {
-  id             String      @id @default(uuid())
-  is_paid        Boolean     @default(false)
-  transaction_id String
-  file_id        String?
-  transaction    Transaction @relation(fields: [transaction_id], references: [id])
-  file           File?       @relation(fields: [file_id], references: [id])
+    id             String      @id @default(uuid())
+    is_paid        Boolean     @default(false)
+    transaction_id String
+    file_id        String?
+    transaction    Transaction @relation(fields: [transaction_id], references: [id])
+    file           File?       @relation(fields: [file_id], references: [id])
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("receipts")
+    @@map("receipts")
 }
 
 model File {
-  id       String    @id @default(uuid())
-  archived String?   @db.VarChar(999)
-  Receipt  Receipt[]
+    id       String    @id @default(uuid())
+    archived String?   @db.VarChar(999)
+    Receipt  Receipt[]
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("files")
+    @@map("files")
 }
 
 enum action_rule {
-  created
-  updated
+    created
+    updated
 }
 
 enum status_role {
-  accredited
-  cancelled
-  expired
-  pending_waiting_transfer
+    accredited
+    cancelled
+    expired
+    pending_waiting_transfer
 }
 
 model MercadoPago {
-  id                    String      @id @default(uuid())
-  transaction_id        String
-  transaction           Transaction @relation(fields: [transaction_id], references: [id])
-  m_id                  String      @default("NULL")
-  m_action              action_rule
-  m_status              String
-  m_status_detail       status_role
-  m_net_received_amount Decimal     @db.Decimal(9, 2)
-  m_total_paid_amount   Decimal     @db.Decimal(9, 2)
-  m_transaction_id      String
-  m_qr_code             String
-  m_ticket_url          String
-  m_qr_code_base64      String?     @db.Text
+    id                    String      @id @default(uuid())
+    transaction_id        String
+    transaction           Transaction @relation(fields: [transaction_id], references: [id])
+    m_id                  String      @default("NULL")
+    m_action              action_rule
+    m_status              String
+    m_status_detail       status_role
+    m_net_received_amount Decimal     @db.Decimal(9, 2)
+    m_total_paid_amount   Decimal     @db.Decimal(9, 2)
+    m_transaction_id      String
+    m_qr_code             String
+    m_ticket_url          String
+    m_qr_code_base64      String?     @db.Text
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("mercadopagos")
+    @@map("mercadopagos")
 }
 
 model Accumulator_bonus {
-  id           String  @id @default(uuid())
-  profile      Profile @relation(fields: [profile_id], references: [id])
-  profile_id   String  @unique
-  bonus_amount Decimal @default(0.00) @db.Decimal(9, 2)
+    id           String  @id @default(uuid())
+    profile      Profile @relation(fields: [profile_id], references: [id])
+    profile_id   String  @unique
+    bonus_amount Decimal @default(0.00) @db.Decimal(9, 2)
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("accumulator_bonus")
+    @@map("accumulator_bonus")
 }
 
 model Percentage_today {
-  id         String  @id @default(uuid())
-  percentage Decimal @default(0.00) @db.Decimal(9, 2)
+    id         String  @id @default(uuid())
+    percentage Decimal @default(0.00) @db.Decimal(9, 2)
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
 
-  @@map("percentage_today")
+    @@map("percentage_today")
 }
 
 enum withdrawal_role {
-  processing
-  accepted
-  refused
+    processing
+    accepted
+    refused
 }
 
 model Withdrawal {
-  id          String          @id @default(uuid())
-  profile     Profile         @relation(fields: [profile_id], references: [id])
-  profile_id  String
-  amount      Decimal         @default(0.00) @db.Decimal(9, 2)
-  status      withdrawal_role @default(processing)
-  description String?
-  created_at  DateTime        @default(now())
-  updated_at  DateTime        @default(now()) @updatedAt
+    id          String          @id @default(uuid())
+    profile     Profile         @relation(fields: [profile_id], references: [id])
+    profile_id  String
+    amount      Decimal         @default(0.00) @db.Decimal(9, 2)
+    status      withdrawal_role @default(processing)
+    description String?
+    created_at  DateTime        @default(now())
+    updated_at  DateTime        @default(now()) @updatedAt
 
-  @@index([id])
-  @@map("withdrawals")
+    @@index([id])
+    @@map("withdrawals")
 }
 
 enum callen_rules {
-  open
-  in_attendance
-  close
+    open
+    in_attendance
+    close
 }
 
 model Called {
-  id           String         @id @default(uuid())
-  profile      Profile        @relation(fields: [profile_id], references: [id])
-  profile_id   String
-  descriptions String         @db.VarChar(999)
-  status       callen_rules   @default(open)
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @default(now()) @updatedAt
-  Conversation Conversation[]
+    id           String         @id @default(uuid())
+    profile      Profile        @relation(fields: [profile_id], references: [id])
+    profile_id   String
+    descriptions String         @db.VarChar(999)
+    status       callen_rules   @default(open)
+    created_at   DateTime       @default(now())
+    updated_at   DateTime       @default(now()) @updatedAt
+    Conversation Conversation[]
 
-  @@index([id])
-  @@map("calleds")
+    @@index([id])
+    @@map("calleds")
 }
 
 enum who_rules {
-  client
-  operator
+    client
+    operator
 }
 
 model Conversation {
-  id           String    @id @default(uuid())
-  callend      Called    @relation(fields: [called_id], references: [id])
-  who          who_rules @default(client)
-  called_id    String
-  descriptions String    @db.VarChar(999)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @default(now()) @updatedAt
+    id           String    @id @default(uuid())
+    callend      Called    @relation(fields: [called_id], references: [id])
+    who          who_rules @default(client)
+    called_id    String
+    descriptions String    @db.VarChar(999)
+    created_at   DateTime  @default(now())
+    updated_at   DateTime  @default(now()) @updatedAt
 
-  @@index([id])
-  @@map("conversations")
+    @@index([id])
+    @@map("conversations")
 }
