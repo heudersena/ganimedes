@@ -46,6 +46,7 @@ route.get("/cron", WebhookController.cron)
 // GERENCIAMENTO INTERNO
 // keycloakRolesMidlleware(["ROLE_ADMINISTRATOR", "ROLE_ATENDENTE"])
 // keycloakAuthenticationMidleware, 
+route.get("/api/management/withdraw/all",  WithDrawManagementController.all)
 route.get("/api/management/withdraw",  WithDrawManagementController.index)
 route.get("/api/management/withdraw/:id",  WithDrawManagementController.getBayId)
 route.patch("/api/management/withdraw/:id",  WithDrawManagementController.update)

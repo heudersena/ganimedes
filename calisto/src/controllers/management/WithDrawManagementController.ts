@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import { WithDrawDatabaseManagement } from "../../services/management/WithDrawDatabaseManagement";
 
 export class WithDrawManagementController {
+    static async all(request: Request, response: Response) {
+        const content = await WithDrawDatabaseManagement.all()
+        return response.json(content)
+    }
 
     static async index(request: Request, response: Response) {
         const content = await WithDrawDatabaseManagement.index()

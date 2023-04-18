@@ -19,14 +19,14 @@
         />
       </div>
       <div>
-        <label for="">Selecionar uma ação</label>
+        <label for="" class="text-slate-400">Selecionar uma ação</label>
         <select name="" class="w-full rounded mt-1 bg-slate-800 border-none text-xs">
           <option class="text-xs" value="accepted">ACEITAR</option>
           <option class="text-xs" value="refused">RECUSAR</option>
         </select>
       </div>
       <div class="mt-4">
-        <label for="">Porque vai recusar?</label>
+        <label for="" class="text-slate-400">Porque vai recusar?</label>
         <textarea
           name=""
           class="w-full mt-1 rounded bg-slate-800 border-none"

@@ -78,7 +78,7 @@ function getOneSaque(item) {
     </span>
     <h1>Sem saques para ser aprovados 😁</h1>
   </div>
-  <div v-else class="flex flex-col gap-2">
+  <div v-else class="flex flex-col gap-2 mb-8">
     <RouterLink
       v-for="(saque, i) in saques"
       :key="i"
