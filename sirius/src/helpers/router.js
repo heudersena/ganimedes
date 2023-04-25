@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import { HomeView, LoginView, RegisterView, DespositView, SaqueView, MeView } from '@/views';
+import { HomeView, DespositView, SaqueView, MeView } from '@/views';
 
 import Guard from "../service/middleware"
 
 import DashboardLayout from "../components/Layout/DashboardLayout"
 import LoginLayout from "../components/Layout/LoginLayout"
 import MeLayout from "../components/Layout/MeLayout"
+
+import LoginView from "../modules/Users/Views/LoginView.vue"
+import RegisterView from "../modules/Users/Views/RegisterView.vue"
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -52,8 +55,7 @@ export const router = createRouter({
         },
         {
             path: '/login',
-            component: LoginLayout,
-            beforeEnter: Guard.redirectIfAuthenticated,
+            // beforeEnter: Guard.redirectIfAuthenticated,
             children: [{
                 path: "",
                 name: "login",

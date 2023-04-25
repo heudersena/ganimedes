@@ -6,7 +6,9 @@ import { VueQueryPlugin } from "vue-query";
 
 import "vue-toastification/dist/index.css";
 
-import './assets/style.css'
+import './assets/css/bootstrap.min.css'
+import './assets/css/main.css'
+import './assets/css/all.min.css'
 
 import App from './App.vue'
 
